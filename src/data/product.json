@@ -1,16 +1,28 @@
 {
-    "prodcts": [
-        {
-            "id": 1,
-            "name": "Wireless Mouse"
-        },
-        {
-            "id": 2,
-            "name": "Bluetooth Headphones"
-        },
-        {
-            "id": 3,
-            "name": "Coffee Mug"
-        }
-    ]
+  "production": [
+    {
+      "name": "product1",
+      "price": 100
+    },
+    {
+      "name": "product2",
+      "price": 200
+    },
+    {
+      "name": "product3",
+      "price": 300
+    },
+    {
+      "name": "product4",
+      "price": 400
+    },
+    {
+      "name": "product4",
+      "price": 400
+    },
+    {
+      "name": "product4",
+      "price": 400
+    }
+  ]
 }

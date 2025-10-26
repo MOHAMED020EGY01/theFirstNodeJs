@@ -1,37 +1,47 @@
 import * as http from "http";
 import fs from "fs";
 import path from "path";
-import { log } from "console";
 // Create a local server to receive data from
 const port = 5599;
-const data = {
-  production: [
-    { name: "product1", price: 100 },
-    { name: "product2", price: 200 },
-    { name: "product3", price: 300 },
-  ],
+const pathFile = path.join(__dirname, "data", "product.json");
+const datas = {
+  name: "product4",
+  price: 400,
 };
+
 const server = http.createServer((req, res) => {
   if (req.url === "/products") {
-    const pathFile = path.join(__dirname, "data", "product.js");
-    
     fs.readFile(pathFile, "utf-8", (err, data) => {
-      if(err)
       fs.access(pathFile, (err) => {
         if (err) {
-          console.log(` The file ${pathFile} Not exists.`);
+          console.log(`The file ${pathFile} Not exists.`);
           res.end();
           return;
         }
+
+        const products = JSON.parse(data);
+        console.log("Products Test",products);
+        
         res.writeHead(200, { "Content-Type": "application/json" });
         console.log(err);
+
+        
+        products.production.push(datas);
+        const AllProducts = products;
+        console.log("Products After Push",AllProducts);
+        fs.writeFile(
+          pathFile,
+          JSON.stringify(AllProducts, null, 2),
+          { flag: "w" },
+          (err) => {}
+        );
+        
         console.log(JSON.parse(data));
         res.write(data);
         console.log("File read successfully");
         res.end();
       });
     });
-
   } else if (req.url === "/new") {
     res.writeHead(200, { "Content-Type": "text/html" });
     res.write(`
@@ -65,13 +75,11 @@ const server = http.createServer((req, res) => {
     req.on("end", () => {
       const parsedBody = new URLSearchParams(body);
       console.log(parsedBody);
-      
     });
     res.writeHead(200, { "Content-Type": "text/plain" });
     res.write("Product added successfully!");
     res.end();
-  }
-  else if (req.url === "/") {
+  } else if (req.url === "/") {
     res.writeHead(200, { "Content-Type": "text/plain" });
     res.write("Hello, this is the home page!");
     res.end();
